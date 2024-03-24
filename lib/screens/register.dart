@@ -1,3 +1,4 @@
+import 'package:bolt_clone/screens/registration_complete.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -8,12 +9,26 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
+  final TextEditingController _dateController = TextEditingController();
   int _value = 1;
+  Future<void> _selectDate() async {
+    DateTime? _picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1960),
+      lastDate: DateTime(2100),
+    );
+    if (_picked != null){
+      setState(() {
+        _dateController.text = _picked.toString().split(" ")[0];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 211, 245, 228),
+      backgroundColor: const Color.fromARGB(255, 231, 241, 231),
       appBar: AppBar(
         title: const Text('Bolt', style: TextStyle(fontSize: 34)),
         centerTitle: true,
@@ -28,14 +43,14 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: [
                   const Text(
-                    "Registration",
+                    "Create Account",
                     style: TextStyle(fontSize: 20),
                   ),
                   Container(
                     alignment: Alignment.topLeft,
                     child: const Text(
                       "Name",
-                      style: TextStyle(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   const TextField(
@@ -62,7 +77,7 @@ class _RegisterState extends State<Register> {
                     alignment: Alignment.topLeft,
                     child: const Text(
                       "E-mail",
-                      style: TextStyle(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   const TextField(
@@ -79,7 +94,7 @@ class _RegisterState extends State<Register> {
                     alignment: Alignment.topLeft,
                     child: const Text(
                       "PhoneNumber",
-                      style: TextStyle(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   const TextField(
@@ -96,16 +111,21 @@ class _RegisterState extends State<Register> {
                     alignment: Alignment.topLeft,
                     child: const Text(
                       "Date Of Birth",
-                      style: TextStyle(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  const TextField(
-                    decoration: InputDecoration(
-                        hintText: "Date Of Birth",
-                        border: OutlineInputBorder(),
-                        labelText: "DD-MM-YYYY",
-                        suffix: Icon(Icons.edit_calendar),
-                        prefixIcon: Icon(Icons.calendar_month)),
+                  TextField(
+                    controller: _dateController,
+                    readOnly: true,
+                    onTap: () {
+                      _selectDate();
+                    },
+                    decoration: const InputDecoration(
+                      hintText: "Date Of Birth",
+                      border: OutlineInputBorder(),
+                      labelText: "DD-MM-YYYY",
+                      prefixIcon: Icon(Icons.calendar_month),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -114,7 +134,7 @@ class _RegisterState extends State<Register> {
                     alignment: Alignment.topLeft,
                     child: const Text(
                       "Gender",
-                      style: TextStyle(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Row(
@@ -150,6 +170,51 @@ class _RegisterState extends State<Register> {
                       ),
                       const Text("Female"),
                     ],
+                  ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      "Create Password",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const TextField(
+                    decoration: InputDecoration(
+                        hintText: "Enter Password",
+                        border: OutlineInputBorder(),
+                        labelText: "Create Password",
+                        prefixIcon: Icon(Icons.key)),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const TextField(
+                    decoration: InputDecoration(
+                        hintText: "Re-enter Password",
+                        border: OutlineInputBorder(),
+                        labelText: "Confirm Password",
+                        prefixIcon: Icon(Icons.key)),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const RegistrationComplete(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigoAccent,
+                    ),
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements
+import 'package:bolt_clone/screens/forgot_password.dart';
 import 'package:flutter/gestures.dart';
 import 'package:bolt_clone/screens/home_page.dart';
 import 'package:bolt_clone/screens/register.dart';
@@ -125,10 +126,20 @@ class _LoginState extends State<Login> {
                     height: 30,
                   ),
                   RichText(
-                    text: const TextSpan(
+                    text:  TextSpan(
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Forgot Password?',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const ForgotPassword(),
+                                ),
+                              );
+                            },
                         ),
                       ],
                     ),
