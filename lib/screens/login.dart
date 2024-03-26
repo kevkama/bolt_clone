@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements
+import 'dart:ffi';
+
 import 'package:bolt_clone/screens/forgot_password.dart';
 import 'package:flutter/gestures.dart';
 import 'package:bolt_clone/screens/home_page.dart';
@@ -13,6 +15,40 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String? _emailError;
+  String? _passwordError;
+
+  final String validEmail = "example@example.com";
+  final String validPassword = "Password";
+
+  // ignore: body_might_complete_normally_nullable
+  Void? _login() {
+    setState(() {
+      _emailError = null;
+      _passwordError = null;
+    });
+
+    if (_emailController.text.trim() != validEmail) {
+      setState(() {
+        _emailError = 'Invalid Email';
+      });
+    }
+    if (_passwordController.text.trim() != validPassword) {
+      setState(() {
+        _passwordError = 'Invalid Password';
+      });
+    }
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const HomePage(),
+        )
+      );
+    
+  }
+
   bool _isObscured = true;
   @override
   Widget build(BuildContext context) {
@@ -41,20 +77,24 @@ class _LoginState extends State<Login> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const TextField(
+                  TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
+                        errorText: _emailError,
                         hintText: "Enter Email",
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: "Email",
-                        prefixIcon: Icon(Icons.mail)),
+                        prefixIcon: const Icon(Icons.mail)),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextField(
+                    controller: _passwordController,
                     obscureText: _isObscured,
                     obscuringCharacter: "*",
                     decoration: InputDecoration(
+                      errorText: _passwordError,
                       hintText: "Enter Password",
                       border: const OutlineInputBorder(),
                       prefixIcon: const Icon(Icons.lock),
@@ -75,14 +115,7 @@ class _LoginState extends State<Login> {
                     height: 20,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const HomePage(),
-                        ),
-                      );
-                    },
+                    onPressed: _login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigoAccent,
                     ),
@@ -126,7 +159,7 @@ class _LoginState extends State<Login> {
                     height: 30,
                   ),
                   RichText(
-                    text:  TextSpan(
+                    text: TextSpan(
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Forgot Password?',

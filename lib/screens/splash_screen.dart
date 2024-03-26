@@ -30,7 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: <Widget>[
             Image.asset("assets/svgs/Bolt.png"),
             const SizedBox(height: 20),
-            const CircularProgressIndicator(),
+            // const CircularProgressIndicator(),
+            const RefreshProgressIndicator(),
           ],
         ),
       ),
